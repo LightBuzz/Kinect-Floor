@@ -7,6 +7,9 @@ using System.Windows.Media.Imaging;
 
 namespace LightBuzz.Vitruvius
 {
+    /// <summary>
+    /// Provides some common Kinect extension methods.
+    /// </summary>
     public static class Extensions
     {
         private static Body[] _bodyData = new Body[6];
@@ -14,9 +17,13 @@ namespace LightBuzz.Vitruvius
         private static CameraSpacePoint[] _cameraData = new CameraSpacePoint[512 * 424];
         private static byte[] _colorData = new byte[512 * 424 * 4];
         private static WriteableBitmap _bitmap = new WriteableBitmap(512, 424, 96.0, 96.0, PixelFormats.Bgr32, null);
-
         private static CoordinateMapper _mapper = KinectSensor.GetDefault().CoordinateMapper;
 
+        /// <summary>
+        /// Returns the first tracked body.
+        /// </summary>
+        /// <param name="frame">The Body frame.</param>
+        /// <returns>The first tracked body.</returns>
         public static Body Body(this BodyFrame frame)
         {
             if (frame == null) return null;
@@ -26,6 +33,11 @@ namespace LightBuzz.Vitruvius
             return _bodyData.Where(b => b != null && b.IsTracked).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Creates a new instance of the Floor class.
+        /// </summary>
+        /// <param name="frame">The Body frame to use.</param>
+        /// <returns>A new Floor object.</returns>
         public static Floor Floor(this BodyFrame frame)
         {
             if (frame == null) return null;
@@ -33,6 +45,11 @@ namespace LightBuzz.Vitruvius
             return new Floor(frame.FloorClipPlane);
         }
 
+        /// <summary>
+        /// Converts the specified 3D Camera point into its equivalent 2D Depth point.
+        /// </summary>
+        /// <param name="point3D">The point in the 3D Camera space.</param>
+        /// <returns>The equivalent point in the 2D Depth space.</returns>
         public static Point ToPoint(this CameraSpacePoint point3D)
         {
             Point point = new Point();
@@ -47,6 +64,13 @@ namespace LightBuzz.Vitruvius
             return point;
         }
 
+        /// <summary>
+        /// Returns the floor point that is right below the given point.
+        /// </summary>
+        /// <param name="floor">The floor obect to use.</param>
+        /// <param name="x">The X value of the point in the 2D space.</param>
+        /// <param name="z">The Z value of the point.</param>
+        /// <returns>The equivalent Y value of the corresponding floor point.</returns>
         public static int FloorY(this Floor floor, int x, ushort z)
         {
             _mapper.MapDepthFrameToCameraSpace(_depthData, _cameraData);
@@ -70,6 +94,12 @@ namespace LightBuzz.Vitruvius
             return 424;
         }
 
+        /// <summary>
+        /// Creates a bitmap representation of the Depth frame with or without highlighting the floor.
+        /// </summary>
+        /// <param name="frame">The Depth frame to visualize.</param>
+        /// <param name="floor">The Floor to draw.</param>
+        /// <returns>A bitmap representation of the Depth frame with the floor.</returns>
         public static WriteableBitmap Bitmap(this DepthFrame frame, Floor floor = null)
         {
             if (frame == null) return null;

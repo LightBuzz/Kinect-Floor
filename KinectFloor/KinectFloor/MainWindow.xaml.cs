@@ -1,10 +1,8 @@
 ﻿using LightBuzz.Vitruvius;
 using Microsoft.Kinect;
-using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
 namespace KinectFloor
 {
@@ -36,9 +34,7 @@ namespace KinectFloor
                 _bodyReader.FrameArrived += BodyReader_FrameArrived;
             }
         }
-
-        private int _floorY = 0;
-
+        
         private void BodyReader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
             using (BodyFrame frame = e.FrameReference.AcquireFrame())
@@ -51,19 +47,17 @@ namespace KinectFloor
                     if (_floor != null && _body != null)
                     {
                         CameraSpacePoint wrist3D = _body.Joints[JointType.WristLeft].Position;
-
-                        double distance = _floor.DistanceFrom(wrist3D);
-
-                        TblDistance.Text = distance.ToString("N2");
-
                         Point wrist2D = wrist3D.ToPoint();
 
-                        _floorY = _floor.FloorY((int)wrist2D.X, (ushort)(wrist3D.Z * 1000));
+                        double distance = _floor.DistanceFrom(wrist3D);
+                        int floorY = _floor.FloorY((int)wrist2D.X, (ushort)(wrist3D.Z * 1000));
+
+                        TblDistance.Text = distance.ToString("N2");
 
                         Canvas.SetLeft(EllipseHand, wrist2D.X - EllipseHand.Width / 2.0);
                         Canvas.SetTop(EllipseHand, wrist2D.Y - EllipseHand.Height / 2.0);
                         Canvas.SetLeft(EllipseFloor, wrist2D.X - EllipseFloor.Width / 2.0);
-                        Canvas.SetTop(EllipseFloor, _floorY - EllipseFloor.Height / 2.0);
+                        Canvas.SetTop(EllipseFloor, floorY - EllipseFloor.Height / 2.0);
                     }
                 }
             }
