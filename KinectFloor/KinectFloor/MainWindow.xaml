@@ -6,12 +6,12 @@
         mc:Ignorable="d"
         Title="Kinect Floor" Height="700" Width="900"
         Closing="Window_Closing">
-    <Grid>
+    <Grid Background="Gray">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="Gray">
+        <Grid Grid.Row="0" Background="Black">
             <TextBlock Foreground="White" Margin="10" HorizontalAlignment="Left" Text="Kinect Floor Detection" />
             <TextBlock Foreground="White" Margin="10" HorizontalAlignment="Right">
                 Distance: <Run x:Name="TblDistance" />m
@@ -21,8 +21,8 @@
             <Grid Width="512" Height="424">
                 <Image Name="Camera" />
                 <Canvas>
-                    <Ellipse Name="EllipseHand" Width="20" Height="20" Fill="Cyan" />
-                    <Ellipse Name="EllipseFloor" Width="20" Height="20" Fill="Green" />
+                    <Image Name="ImgHand" Source="/Hud.png" Stretch="Uniform" Width="40" Height="40" />
+                    <Image Name="ImgFloor" Source="/Hud.png" Stretch="Fill" Width="100" Height="40" />
                 </Canvas>
             </Grid>
         </Viewbox>

@@ -54,10 +54,10 @@ namespace KinectFloor
 
                         TblDistance.Text = distance.ToString("N2");
 
-                        Canvas.SetLeft(EllipseHand, wrist2D.X - EllipseHand.Width / 2.0);
-                        Canvas.SetTop(EllipseHand, wrist2D.Y - EllipseHand.Height / 2.0);
-                        Canvas.SetLeft(EllipseFloor, wrist2D.X - EllipseFloor.Width / 2.0);
-                        Canvas.SetTop(EllipseFloor, floorY - EllipseFloor.Height / 2.0);
+                        Canvas.SetLeft(ImgHand, wrist2D.X - ImgHand.Width / 2.0);
+                        Canvas.SetTop(ImgHand, wrist2D.Y - ImgHand.Height / 2.0);
+                        Canvas.SetLeft(ImgFloor, wrist2D.X - ImgFloor.Width / 2.0);
+                        Canvas.SetTop(ImgFloor, floorY - ImgFloor.Height / 2.0);
                     }
                 }
             }
