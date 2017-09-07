@@ -46,7 +46,7 @@ namespace KinectFloor
 
                     if (_floor != null && _body != null)
                     {
-                        CameraSpacePoint wrist3D = _body.Joints[JointType.WristLeft].Position;
+                        CameraSpacePoint wrist3D = _body.Joints[JointType.HandLeft].Position;
                         Point wrist2D = wrist3D.ToPoint();
 
                         double distance = _floor.DistanceFrom(wrist3D);
